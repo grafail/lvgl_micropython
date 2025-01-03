@@ -41,6 +41,7 @@ static mp_obj_t spi3wire_make_new(const mp_obj_type_t *type, size_t n_args, size
         ARG_use_dc_bit,
         ARG_dc_zero_on_data,
         ARG_lsb_first,
+        ARG_dc_data_high,
         ARG_cs_high_active,
         ARG_del_keep_cs_inactive
     };
@@ -161,10 +162,10 @@ static mp_obj_t spi3wire_tx_param(size_t n_args, const mp_obj_t *pos_args, mp_ma
         size_t buf_len = 0;
 
         if (args[ARG_params].u_obj != mp_const_none) {
-            mp_buffer_info_t *bufinfo;
+            mp_buffer_info_t bufinfo;
             mp_get_buffer_raise(args[ARG_params].u_obj, &bufinfo, MP_BUFFER_READ);
-            buf_len = bufinfo->len;
-            buf = bufinfo->buf;
+            buf_len = bufinfo.len;
+            buf = bufinfo.buf;
         }
 
 //        LCD_DEBUG_PRINT("spi3wire_tx_param(self, lcd_cmd=%d, param, param_size=%d)\n", cmd, buf_len)
