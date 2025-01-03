@@ -91,16 +91,16 @@ static mp_obj_t spi3wire_make_new(const mp_obj_type_t *type, size_t n_args, size
        mp_raise_msg_varg(&mp_type_ValueError, MP_ERROR_TEXT("frequency is greater than %d"), PANEL_IO_3WIRE_SPI_CLK_MAX);
     }
 
-    SPI3WIRE_DEBUG_PRINT("use_dc_bit=%d\n", config->flags.use_dc_bit)
-    SPI3WIRE_DEBUG_PRINT("dc_zero_on_data=%d\n", config->flags.dc_zero_on_data)
-    SPI3WIRE_DEBUG_PRINT("lsb_first=%d\n", config->flags.lsb_first)
-    SPI3WIRE_DEBUG_PRINT("cs_high_active=%d\n", config->flags.cs_high_active)
-    SPI3WIRE_DEBUG_PRINT("del_keep_cs_inactive=%d\n", config->flags.del_keep_cs_inactive)
-    SPI3WIRE_DEBUG_PRINT("spi_mode=%d\n", config->spi_mode)
-    SPI3WIRE_DEBUG_PRINT("expect_clk_speed=%d\n", config->expect_clk_speed)
-    SPI3WIRE_DEBUG_PRINT("cs_gpio_num=%d\n", config->line_config.cs_gpio_num)
-    SPI3WIRE_DEBUG_PRINT("scl_gpio_num=%d\n", config->line_config.scl_gpio_num)
-    SPI3WIRE_DEBUG_PRINT("sda_gpio_num=%d\n", config->line_config.sda_gpio_num)
+//    SPI3WIRE_DEBUG_PRINT("use_dc_bit=%d\n", config->flags.use_dc_bit)
+//    SPI3WIRE_DEBUG_PRINT("dc_zero_on_data=%d\n", config->flags.dc_zero_on_data)
+//    SPI3WIRE_DEBUG_PRINT("lsb_first=%d\n", config->flags.lsb_first)
+//    SPI3WIRE_DEBUG_PRINT("cs_high_active=%d\n", config->flags.cs_high_active)
+//    SPI3WIRE_DEBUG_PRINT("del_keep_cs_inactive=%d\n", config->flags.del_keep_cs_inactive)
+//    SPI3WIRE_DEBUG_PRINT("spi_mode=%d\n", config->spi_mode)
+//    SPI3WIRE_DEBUG_PRINT("expect_clk_speed=%d\n", config->expect_clk_speed)
+//    SPI3WIRE_DEBUG_PRINT("cs_gpio_num=%d\n", config->line_config.cs_gpio_num)
+//    SPI3WIRE_DEBUG_PRINT("scl_gpio_num=%d\n", config->line_config.scl_gpio_num)
+//    SPI3WIRE_DEBUG_PRINT("sda_gpio_num=%d\n", config->line_config.sda_gpio_num)
 
     return MP_OBJ_FROM_PTR(self);
 }
@@ -122,12 +122,12 @@ static mp_obj_t spi3wire_init(size_t n_args, const mp_obj_t *pos_args, mp_map_t 
     self->io_config->lcd_cmd_bytes = ((uint32_t)args[ARG_cmd_bits].u_int) / 8;
     self->io_config->lcd_param_bytes = ((uint32_t)args[ARG_param_bits].u_int) / 8;
 
-    SPI3WIRE_DEBUG_PRINT("lcd_cmd_bytes=%d\n", self->io_config->lcd_cmd_bytes)
-    SPI3WIRE_DEBUG_PRINT("lcd_param_bytes=%d\n", self->io_config->lcd_param_bytes)
+//    SPI3WIRE_DEBUG_PRINT("lcd_cmd_bytes=%d\n", self->io_config->lcd_cmd_bytes)
+//    SPI3WIRE_DEBUG_PRINT("lcd_param_bytes=%d\n", self->io_config->lcd_param_bytes)
 
     esp_err_t ret = esp_lcd_new_panel_io_3wire_spi(self->io_config, &self->panel_io_handle);
 
-    if (ret !- 0) {
+    if (ret != 0) {
         mp_raise_msg_varg(&mp_type_OSError, MP_ERROR_TEXT("%d(esp_lcd_new_panel_io_3wire_spi)"), ret);
     }
 
@@ -138,7 +138,7 @@ static mp_obj_t spi3wire_init(size_t n_args, const mp_obj_t *pos_args, mp_map_t 
     return mp_const_none;
 }
 
-static MP_DEFINE_CONST_FUN_OBJ_KW(spi3wire_init_obj, 8, spi3wire_init);
+static MP_DEFINE_CONST_FUN_OBJ_KW(spi3wire_init_obj, 3, spi3wire_init);
 
 
 static mp_obj_t spi3wire_tx_param(size_t n_args, const mp_obj_t *pos_args, mp_map_t *kw_args)
@@ -163,11 +163,11 @@ static mp_obj_t spi3wire_tx_param(size_t n_args, const mp_obj_t *pos_args, mp_ma
         if (args[ARG_params].u_obj != mp_const_none) {
             mp_buffer_info_t *bufinfo;
             mp_get_buffer_raise(args[ARG_params].u_obj, &bufinfo, MP_BUFFER_READ);
-            buf_len = bufinfo.len;
-            buf = bufinfo.buf;
+            buf_len = bufinfo->len;
+            buf = bufinfo->buf;
         }
 
-        LCD_DEBUG_PRINT("spi3wire_tx_param(self, lcd_cmd=%d, param, param_size=%d)\n", cmd, buf_len)
+//        LCD_DEBUG_PRINT("spi3wire_tx_param(self, lcd_cmd=%d, param, param_size=%d)\n", cmd, buf_len)
 
         esp_err_t ret = esp_lcd_panel_io_tx_param(self->panel_io_handle, cmd, buf, buf_len);
 
@@ -185,7 +185,7 @@ static MP_DEFINE_CONST_FUN_OBJ_KW(spi3wire_tx_param_obj, 2, spi3wire_tx_param);
 
 mp_obj_t spi3wire_deinit(mp_obj_t obj)
 {
-    LCD_DEBUG_PRINT("spi3wire_deinit(self)\n")
+//    LCD_DEBUG_PRINT("spi3wire_deinit(self)\n")
 
     mp_spi3wire_obj_t *self = (mp_spi3wire_obj_t *)obj;
 
@@ -213,7 +213,7 @@ mp_obj_t spi3wire_deinit(mp_obj_t obj)
         spi3wire_objs = m_realloc(spi3wire_objs, spi3wire_count * sizeof(mp_spi3wire_obj_t *));
     }
 
-    return mp_const_none
+    return mp_const_none;
 }
 
 static MP_DEFINE_CONST_FUN_OBJ_1(spi3wire_deinit_obj, spi3wire_deinit);
@@ -227,7 +227,7 @@ static const mp_rom_map_elem_t mp_spi3wire_locals_dict_table[] = {
 };
 
 
-static MP_DEFINE_CONST_DICT(spi3wire_locals_dict, spi3wire_locals_dict_table);
+static MP_DEFINE_CONST_DICT(spi3wire_locals_dict, mp_spi3wire_locals_dict_table);
 
 MP_DEFINE_CONST_OBJ_TYPE(
     mp_spi3wire_type,

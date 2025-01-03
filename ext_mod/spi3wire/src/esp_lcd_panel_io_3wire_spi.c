@@ -136,8 +136,6 @@ esp_err_t esp_lcd_new_panel_io_3wire_spi(const esp_lcd_panel_io_3wire_spi_config
     ESP_GOTO_ON_ERROR(gpio_set_level(panel_io->sda_io_num, sda_scl_idle_level), err, TAG, "Set SDA level failed");
 
     *ret_io = (esp_lcd_panel_io_handle_t)panel_io;
-    ESP_LOGI(TAG, "Panel IO create success, version: %d.%d.%d", ESP_LCD_PANEL_IO_ADDITIONS_VER_MAJOR,
-             ESP_LCD_PANEL_IO_ADDITIONS_VER_MINOR, ESP_LCD_PANEL_IO_ADDITIONS_VER_PATCH);
     return ESP_OK;
 
 err:
